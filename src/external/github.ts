@@ -1,5 +1,13 @@
+export interface IGithubUser {
+  avatar_url: string;
+  name: string;
+  login: string;
+  url: string;
+  repos_url: string;
+  location: string;
+}
 
-export async function getUserData(user: string): Promise<{}> {
+export async function getUserData(user: string): Promise<IGithubUser | undefined> {
   console.log("going to get user=", user);
   
   const req: RequestInit = {
@@ -16,7 +24,7 @@ export async function getUserData(user: string): Promise<{}> {
       console.log("jsonResults=", jsonResults);
       return jsonResults; // as P[];
   }
-  return {};
+  return undefined;
 }
 
 export async function getUserRepos(user: string): Promise<[]> {

@@ -36,3 +36,12 @@ h1, h4 {
   color: white;
   padding: 10px;
 }
+
+.ghubUser {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 30px;
+  justify-content: center;
+  padding: 20px 70px;
+}

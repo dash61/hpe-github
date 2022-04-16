@@ -1,16 +1,26 @@
 import React from 'react';
 import './App.css';
 import githubUsernameRegex from 'github-username-regex';
-import {getUserData} from "./external/github";
+import {getUserData, IGithubUser} from "./external/github";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+import GithubUser from './components/GithubUser';
 
 
 function App() {
   const [userName, setUserName] = React.useState("");
-  
+  const [avatarUrl, setAvatarUrl] = React.useState("");
+  const [location, setLocation] = React.useState("");
+
   const fetchUserData = async (url: string) => {
-    const userData = await getUserData(url);
+    const userData: IGithubUser | undefined = await getUserData(url);
     if (userData) {
       console.log("user data object is NOT empty");
+      if (userData) {
+        console.log("user data object is NOT empty");
+        setAvatarUrl(userData.avatar_url);
+        setLocation(userData.location);
+      }
     }
   }
 
@@ -27,24 +37,20 @@ function App() {
 
   return (
     <div className="container">
-      <header className='header'>
-        <h1>HPE Github User Analyzer</h1>
-      </header>
+      <Header />
       <main className='content'>
         { !userName ?
           <p>
             Error - invalid user name entered ({userName})
           </p>
         :
-          <>
-            {userName}
-          </>
-        }
+        <>
+          <GithubUser avatarUrl={avatarUrl} userName={userName} location={location}/>
+        </>
+    }
       </main>
 
-      <footer className='footer'>
-        <h4>Just a Test App ©2022</h4>
-      </footer>
+      <Footer />
     </div>
   );
 }
