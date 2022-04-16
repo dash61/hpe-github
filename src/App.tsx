@@ -5,8 +5,7 @@ import {getUserData, getUserRepos, IGithubUser, IGithubRepo} from "./external/gi
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import GithubUser from './components/GithubUser';
-
-// let reposData = false;
+import RepoDetails from './components/RepoDetails';
 
 function App() {
   const [userName, setUserName] = React.useState("");
@@ -14,14 +13,6 @@ function App() {
   const [location, setLocation] = React.useState("");
   const [numRepos, setNumRepos] = React.useState(0);
   const [repos, setRepos] = React.useState<IGithubRepo[]>([]);
-
-  // const renderHeader = () => {
-  //   let headerElement = ['id', 'name', 'email', 'phone', 'operation'];
-
-  //   return headerElement.map((key, index) => {
-  //       return <th key={index}>{key.toUpperCase()}</th>
-  //   });
-  // }
 
   const fetchUserData = async (url: string) => {
     const userData: IGithubUser | undefined = await getUserData(url);
@@ -40,11 +31,6 @@ function App() {
     const userRepos: IGithubRepo[] = await getUserRepos(url);
     if (userRepos.length) {
       setRepos([...userRepos]);
-      // setRepoName(userRepos.name);
-      // setRepoDescr(userRepos.description);
-      // setRepoLang(userRepos.language);
-      // setRepoUrl(userRepos.url);
-      // setRepoStars(userRepos.stargazers_count);
     }
   }
 
@@ -73,9 +59,7 @@ function App() {
             <GithubUser avatarUrl={avatarUrl} userName={userName} location={location}/>
             { numRepos && repos.map((repo, index) => {
                 return (
-                  <div>
-                    {repo.name}
-                  </div>
+                  <RepoDetails repo={repo} key={`repo-${index}`} />
                 )
               })
             }
