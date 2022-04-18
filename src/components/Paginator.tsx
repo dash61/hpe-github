@@ -35,11 +35,15 @@ const Paginator = (props: IProps): JSX.Element | null => {
   const onPress = (val: string) => {
     switch (val) {
       case "<<":
-        setFirstPageShown(1);
-        setLastPageShown(props.maxPagesToShowInPaginator);
-        setCurrentPage(1);
         setDisableLeft(true);
         setDisableRight(false);
+        setFirstPageShown(1);
+        if (totalNumPages < props.maxPagesToShowInPaginator) {
+          setLastPageShown(totalNumPages);
+        } else {
+          setLastPageShown(props.maxPagesToShowInPaginator);
+        }
+        setCurrentPage(1);
         props.onSelectPage(1);
         break;
 
@@ -76,12 +80,20 @@ const Paginator = (props: IProps): JSX.Element | null => {
         break;
 
       case ">>":
-        setFirstPageShown(totalNumPages - props.maxPagesToShowInPaginator);
-        setLastPageShown(totalNumPages - 1);
-        setCurrentPage(totalNumPages - 1);
         setDisableRight(true);
         setDisableLeft(false);
-        props.onSelectPage(totalNumPages);
+
+        if (totalNumPages < props.maxPagesToShowInPaginator) {
+          setFirstPageShown(1);
+          setLastPageShown(totalNumPages);
+          setCurrentPage(totalNumPages);
+          props.onSelectPage(totalNumPages);
+        } else {
+          setFirstPageShown(totalNumPages - props.maxPagesToShowInPaginator);
+          setLastPageShown(totalNumPages - 1);
+          setCurrentPage(totalNumPages - 1);
+          props.onSelectPage(totalNumPages - 1);
+        }
         break;
 
       default:  // this will be a numeric page value
