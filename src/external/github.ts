@@ -16,12 +16,15 @@ export interface IGithubRepo {
   svn_url: string;
 }
 
+const TOKEN = "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";
+
 export async function getUserData(user: string): Promise<IGithubUser | undefined> {
   try {
     const req: RequestInit = {
       headers: {
         "Content-Type": "application/json",
         "Accept": "application/vnd.github.v3+json",
+        "Authorization": `username:${TOKEN}`
       },
       method: "GET",
     };
@@ -42,6 +45,7 @@ export async function getUserRepos(user: string, page: number, maxRepos = 5): Pr
       headers: {
         "Content-Type": "application/json",
         "Accept": "application/vnd.github.v3+json",
+        "Authorization": `username:${TOKEN}`
       },
       method: "GET",
     };
