@@ -118,3 +118,15 @@ div a p {
 .paginatorButtons p {
   margin: 0;
 }
+
+.starsContainer {
+  position: absolute;
+  top: -2px;
+  right: 20px;
+}
+
+.star {
+  color: yellow;
+  font-size: 1.1rem;
+  vertical-align: unset;
+}
