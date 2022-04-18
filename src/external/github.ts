@@ -17,31 +17,41 @@ export interface IGithubRepo {
 }
 
 export async function getUserData(user: string): Promise<IGithubUser | undefined> {
-  const req: RequestInit = {
-    headers: {
-      "Content-Type": "application/json",
-      "Accept": "application/vnd.github.v3+json",
-    },
-    method: "GET",
-  };
-  const rsp = await fetch(`https://api.github.com/users/${user}`, req);
-  if (rsp.status === 200) {
-      return await rsp.json();
+  try {
+    const req: RequestInit = {
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/vnd.github.v3+json",
+      },
+      method: "GET",
+    };
+    const rsp = await fetch(`https://api.github.com/users/${user}`, req);
+    if (rsp.status === 200) {
+        return await rsp.json();
+    }
+  } catch (err: unknown) {
+    const errMsg = (err as Error)?.message;
+    console.log("getting user data - EXCEPTION - err=", errMsg);
   }
   return undefined;
 }
 
 export async function getUserRepos(user: string, page: number, maxRepos = 5): Promise<IGithubRepo[]> {
-  const req: RequestInit = {
-    headers: {
-      "Content-Type": "application/json",
-      "Accept": "application/vnd.github.v3+json",
-    },
-    method: "GET",
-  };
-  const rsp = await fetch(`https://api.github.com/users/${user}/repos?page=${page}&per_page=${maxRepos}`, req);
-  if (rsp.status === 200) {
-      return await rsp.json();
+  try {
+    const req: RequestInit = {
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/vnd.github.v3+json",
+      },
+      method: "GET",
+    };
+    const rsp = await fetch(`https://api.github.com/users/${user}/repos?page=${page}&per_page=${maxRepos}`, req);
+    if (rsp.status === 200) {
+        return await rsp.json();
+    }
+  } catch (err: unknown) {
+    const errMsg = (err as Error)?.message;
+    console.log("getting user repos - EXCEPTION - err=", errMsg);
   }
   return [];
 }

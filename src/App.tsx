@@ -25,7 +25,9 @@ function App() {
       setAvatarUrl(userData.avatar_url);
       setLocation(userData.location);
       setNumRepos(userData.public_repos);
+      return;
     }
+    throw new Error("User not found");
   }
 
   const fetchUserRepos = React.useCallback(async (url: string) => {
@@ -44,9 +46,15 @@ function App() {
     const okName = githubUsernameRegex.test(url[1]);
 
     if (okName) {
-      fetchUserData(url[1]);
-      fetchUserRepos(url[1]);
-      setUserName(url[1]);
+      fetchUserData(url[1])
+      .then(() => {
+        fetchUserRepos(url[1]);
+        setUserName(url[1]);
+      })
+      .catch((err: unknown) => {
+        const errMsg = (err as Error)?.message;
+        console.log("fetching user data - EXCEPTION - err=", errMsg);
+      });
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -63,7 +71,7 @@ function App() {
       <main className='content'>
         { !userName ?
           <p>
-            Error - invalid user name entered ({userName})
+            Error - invalid user name entered
           </p>
         :
           <>
