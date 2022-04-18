@@ -1,3 +1,5 @@
+import "../secrets.json";
+
 export interface IGithubUser {
   avatar_url: string;
   location: string;
@@ -16,7 +18,6 @@ export interface IGithubRepo {
   svn_url: string;
 }
 
-const TOKEN = "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";
 
 export async function getUserData(user: string): Promise<IGithubUser | undefined> {
   try {
