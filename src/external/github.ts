@@ -13,12 +13,10 @@ export interface IGithubRepo {
   language: string;
   name: string;
   stargazers_count: number;
-  url: string;
+  svn_url: string;
 }
 
 export async function getUserData(user: string): Promise<IGithubUser | undefined> {
-  console.log("going to get user=", user);
-  
   const req: RequestInit = {
     headers: {
       "Content-Type": "application/json",
@@ -28,17 +26,12 @@ export async function getUserData(user: string): Promise<IGithubUser | undefined
   };
   const rsp = await fetch(`https://api.github.com/users/${user}`, req);
   if (rsp.status === 200) {
-      const jsonResults = await rsp.json();
-
-      console.log("jsonResults=", jsonResults);
-      return jsonResults; // as P[];
+      return await rsp.json();
   }
   return undefined;
 }
 
-export async function getUserRepos(user: string): Promise<IGithubRepo[]> {
-  console.log("going to get user=", user);
-  
+export async function getUserRepos(user: string, page: number, maxRepos = 5): Promise<IGithubRepo[]> {
   const req: RequestInit = {
     headers: {
       "Content-Type": "application/json",
@@ -46,12 +39,9 @@ export async function getUserRepos(user: string): Promise<IGithubRepo[]> {
     },
     method: "GET",
   };
-  const rsp = await fetch(`https://api.github.com/users/${user}/repos`, req);
+  const rsp = await fetch(`https://api.github.com/users/${user}/repos?page=${page}&per_page=${maxRepos}`, req);
   if (rsp.status === 200) {
-      const jsonResults: IGithubRepo[] = await rsp.json();
-
-      console.log("jsonResults=", jsonResults);
-      return jsonResults; // as P[];
+      return await rsp.json();
   }
   return [];
 }

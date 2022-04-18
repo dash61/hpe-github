@@ -11,12 +11,12 @@ function GithubUser (props: IProps): JSX.Element {
     <div className='ghubUser'>
       <Avatar avatarUrl={props.avatarUrl} />
       <a
-        className="App-link"
+        className="app-link"
         href={`https://github.com/${props.userName}`}
         target="_blank"
         rel="noopener noreferrer"
       >
-        {props.userName} {props.location ? `from ${props.location}` : ""}
+        {props.userName} {props.location ? ` - ${props.location}` : ""}
       </a>
     </div>
 );

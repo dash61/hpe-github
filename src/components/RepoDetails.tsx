@@ -1,37 +1,27 @@
 import {IGithubRepo} from "../external/github";
+import '../App.css';
 
 interface IProps {
   repo: IGithubRepo;
 }
 
+// Show information pertaining to one repository.
 function RepoDetails(props: IProps): JSX.Element | null {
 
   return (
     <section style={{
-      backgroundColor: "darkgrey",
-      textAlign: "left",
-      margin: "5px 50px 10px 50px",
-      borderRadius: 5,
     }}>
-      <div style={{
-        paddingLeft: 10,
-        paddingBottom: 5,
-        margin: 0,
-      }}>
-        <h3 style={{
-          margin: 0,
-          paddingTop: 5,
-          textAlign: "left",
-        }}>{props.repo.name}</h3>
-        <p style={{
-          margin: 0,
-          marginTop: 5,
-        }}>{props.repo.description}</p>
-        <p style={{
-          margin: 0,
-          marginTop: 5,
-        }}>{props.repo.language}</p>
-
+      <div className="repoItem">
+        <a
+          className="repoLink"
+          href={props.repo.svn_url}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <h3 className="repoTitle">{props.repo.name}</h3>
+          <p>{props.repo.description}</p>
+          <p>{props.repo.language}</p>
+        </a>
       </div>
     </section>
 );

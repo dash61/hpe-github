@@ -6,6 +6,10 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import GithubUser from './components/GithubUser';
 import RepoDetails from './components/RepoDetails';
+import Paginator from './components/Paginator';
+
+export const MAX_REPOS_PER_PAGE = 5;
+const MAX_PAGES_TO_SHOW_IN_PAGINATOR = 4;
 
 function App() {
   const [userName, setUserName] = React.useState("");
@@ -13,13 +17,12 @@ function App() {
   const [location, setLocation] = React.useState("");
   const [numRepos, setNumRepos] = React.useState(0);
   const [repos, setRepos] = React.useState<IGithubRepo[]>([]);
+  const [currentPage, setCurrentPage] = React.useState(1);
 
   const fetchUserData = async (url: string) => {
     const userData: IGithubUser | undefined = await getUserData(url);
     if (userData) {
-      console.log("user data object is NOT empty");
       if (userData) {
-        console.log("user data object is NOT empty");
         setAvatarUrl(userData.avatar_url);
         setLocation(userData.location);
         setNumRepos(userData.public_repos);
@@ -27,24 +30,34 @@ function App() {
     }
   }
 
-  const fetchUserRepos = async (url: string) => {
-    const userRepos: IGithubRepo[] = await getUserRepos(url);
+  const fetchUserRepos = React.useCallback(async (url: string) => {
+    const userRepos: IGithubRepo[] = await getUserRepos(url, currentPage, MAX_REPOS_PER_PAGE);
     if (userRepos.length) {
       setRepos([...userRepos]);
     }
+  }, [currentPage]);
+
+  const handlePaginatorBtn = (currentPaginatorPage: number) => {
+    setCurrentPage(currentPaginatorPage);
   }
 
   React.useEffect(() => {
     const url = window.location.pathname.split('/');
     const okName = githubUsernameRegex.test(url[1]);
-    // console.log("url=", url, ", okName=", okName);
 
     if (okName) {
       fetchUserData(url[1]);
       fetchUserRepos(url[1]);
       setUserName(url[1]);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  React.useEffect(() => {
+    if (userName) {
+      fetchUserRepos(userName);
+    }
+  }, [currentPage, userName, fetchUserRepos]);
 
   return (
     <div className="container">
@@ -65,6 +78,12 @@ function App() {
             }
           </>
         }
+        <Paginator
+          totalItems={numRepos}
+          maxItemsPerPage={MAX_REPOS_PER_PAGE}
+          maxPagesToShowInPaginator={MAX_PAGES_TO_SHOW_IN_PAGINATOR}
+          onSelectPage={handlePaginatorBtn}
+        />
       </main>
 
       <Footer />
