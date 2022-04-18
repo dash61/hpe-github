@@ -22,11 +22,9 @@ function App() {
   const fetchUserData = async (url: string) => {
     const userData: IGithubUser | undefined = await getUserData(url);
     if (userData) {
-      if (userData) {
-        setAvatarUrl(userData.avatar_url);
-        setLocation(userData.location);
-        setNumRepos(userData.public_repos);
-      }
+      setAvatarUrl(userData.avatar_url);
+      setLocation(userData.location);
+      setNumRepos(userData.public_repos);
     }
   }
 

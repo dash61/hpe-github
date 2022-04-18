@@ -18,7 +18,10 @@ function RepoDetails(props: IProps): JSX.Element | null {
           target="_blank"
           rel="noopener noreferrer"
         >
-          <h3 className="repoTitle">{props.repo.name}</h3>
+          <div style={{position: "relative"}}>
+            <h3 className="repoTitle">{props.repo.name}</h3>
+            <p style={{position: "absolute", top: -2, right: 20}}>★ {props.repo.stargazers_count}</p>
+          </div>
           <p>{props.repo.description}</p>
           <p>{props.repo.language}</p>
         </a>
