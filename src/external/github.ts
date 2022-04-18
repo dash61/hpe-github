@@ -1,4 +1,4 @@
-import "../secrets.json";
+import tokenObj from "../secrets.json";
 
 export interface IGithubUser {
   avatar_url: string;
@@ -18,6 +18,9 @@ export interface IGithubRepo {
   svn_url: string;
 }
 
+interface IToken {
+  token: string;
+}
 
 export async function getUserData(user: string): Promise<IGithubUser | undefined> {
   try {
@@ -25,7 +28,7 @@ export async function getUserData(user: string): Promise<IGithubUser | undefined
       headers: {
         "Content-Type": "application/json",
         "Accept": "application/vnd.github.v3+json",
-        "Authorization": `username:${TOKEN}`
+        "Authorization": `username:${(tokenObj as IToken).token}`
       },
       method: "GET",
     };
@@ -46,7 +49,7 @@ export async function getUserRepos(user: string, page: number, maxRepos = 5): Pr
       headers: {
         "Content-Type": "application/json",
         "Accept": "application/vnd.github.v3+json",
-        "Authorization": `username:${TOKEN}`
+        "Authorization": `username:${(tokenObj as IToken).token}`
       },
       method: "GET",
     };
