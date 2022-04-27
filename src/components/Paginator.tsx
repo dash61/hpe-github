@@ -1,5 +1,4 @@
 import React from 'react';
-import '../App.css';
 
 interface IProps {
   totalItems: number;          // max number of items total, all pages - 49

@@ -1,4 +1,3 @@
-import '../App.css';
 
 interface IProps {
   count: number;

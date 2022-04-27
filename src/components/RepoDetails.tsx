@@ -1,6 +1,5 @@
 import {IGithubRepo} from "../external/github";
 import Stars from "./Stars";
-import '../App.css';
 
 interface IProps {
   repo: IGithubRepo;

@@ -1,4 +1,3 @@
-import '../App.css';
 
 const Footer = (): JSX.Element => {
   return (
